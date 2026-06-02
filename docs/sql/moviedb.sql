@@ -199,6 +199,89 @@ LEFT JOIN reservation r
  AND r.reservation_status = '예매완료'
 ORDER BY seats.seat_row, seats.seat_col;
 
+-- ======================================================
+-- [좌석 선택 ~ 예매 완료]
+-- 앞 화면에서 선택한 schedule_id와 member_id를 전달받아 사용합
+-- 사용자는 좌석을 A1, B3, C4처럼 입력 가능
+-- Java에서는 입력값을 대문자로 변환하여 a1과 A1을 같은 좌석으로 처리
+-- ======================================================
+
+-- 1) 선택한 상영번호의 이미 예매된 좌석 조회
+-- PreparedStatement에서는 schedule_id = ? 로 사용
+SELECT
+    seat_number
+FROM reservation
+WHERE schedule_id = ?
+  AND reservation_status = '예매완료';
+
+
+-- 2) 결제 진행 화면용 금액 계산
+-- 현재 schedule 테이블에 가격 컬럼이 없으므로 좌석 1개당 15,000원으로 계산합니다.
+-- Java에서는 선택 좌석 수 * 15000 으로 계산합니다.
+
+-- Workbench 테스트용: 선택 좌석 2개라고 가정
+SELECT
+    2 AS selected_seat_count,
+    15000 AS ticket_price,
+    2 * 15000 AS total_payment_amount;
+
+
+-- 3) 예매 완료 처리
+-- 여러 좌석을 선택한 경우 좌석 1개당 reservation 행이 1개씩 생성됩니다.
+-- 예: A1, B3, C4 선택 시 reservation 테이블에 3행 INSERT
+
+/*
+START TRANSACTION;
+
+-- 이미 예매된 좌석인지 확인
+SELECT reservation_id
+FROM reservation
+WHERE schedule_id = ?
+  AND seat_number = ?
+  AND reservation_status = '예매완료'
+FOR UPDATE;
+
+-- 예매 생성
+INSERT INTO reservation(member_id, schedule_id, seat_number, reservation_status)
+VALUES (?, ?, ?, '예매완료');
+
+-- 결제 생성
+INSERT INTO payment(reservation_id, payment_amount)
+VALUES (LAST_INSERT_ID(), ?);
+
+COMMIT;
+*/
+
+
+-- Workbench 테스트용: member_id = 1, schedule_id = 1, 좌석 A1 예매
+START TRANSACTION;
+
+INSERT INTO reservation(member_id, schedule_id, seat_number, reservation_status)
+VALUES (1, 1, 'A1', '예매완료');
+
+INSERT INTO payment(reservation_id, payment_amount)
+VALUES (LAST_INSERT_ID(), 15000);
+
+COMMIT;
+
+
+-- 4) 예매 완료 후 확인
+SELECT
+    r.reservation_id,
+    m.movie_title,
+    DATE_FORMAT(s.start_time, '%Y-%m-%d %H:%i') AS start_time,
+    DATE_FORMAT(s.end_time, '%Y-%m-%d %H:%i') AS end_time,
+    r.seat_number,
+    p.payment_amount,
+    r.reservation_status
+FROM reservation r
+         JOIN schedule s
+              ON r.schedule_id = s.schedule_id
+         JOIN movie m
+              ON s.movie_id = m.movie_id
+         JOIN payment p
+              ON r.reservation_id = p.reservation_id
+WHERE r.reservation_id = LAST_INSERT_ID();
 
 -- ======================================================
 -- [결제 진행 화면]

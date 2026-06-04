@@ -7,9 +7,17 @@ import java.util.Scanner;
 
 public class MemberView {
 
-    private Scanner sc = new Scanner(System.in);
+    private Scanner sc;
     //private MemberService service = new MemberService();
     private MemberDAO dao = new MemberDAO();
+
+    public MemberView() {
+        this(new Scanner(System.in));
+    }
+
+    public MemberView(Scanner sc) {
+        this.sc = sc;
+    }
     public void searchMember() {
 
         System.out.println();

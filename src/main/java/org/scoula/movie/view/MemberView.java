@@ -7,19 +7,14 @@ import java.util.Scanner;
 
 public class MemberView {
 
-    private Scanner sc;
-    //private MemberService service = new MemberService();
-    private MemberDAO dao = new MemberDAO();
-
-    public MemberView() {
-        this(new Scanner(System.in));
-    }
+    private final Scanner sc;
+    private final MemberDAO dao = new MemberDAO();
 
     public MemberView(Scanner sc) {
         this.sc = sc;
     }
-    public void searchMember() {
 
+    public void searchMember() {
         System.out.println();
         System.out.println("========== 3. 회원 정보 조회 ==========");
         System.out.println();
@@ -27,19 +22,9 @@ public class MemberView {
         System.out.println();
 
         while (true) {
-
             System.out.print("전화번호 입력 >> ");
 
-            String phone = sc.nextLine();
-
-            phone = phone.replace("-", "");
-
-            if(phone.length() == 11) {
-                phone = phone.replaceFirst(
-                        "(\\d{3})(\\d{4})(\\d{4})",
-                        "$1-$2-$3"
-                );
-            }
+            String phone = formatPhone(sc.nextLine());
 
             if (phone.equals("0")) {
                 return;
@@ -60,8 +45,24 @@ public class MemberView {
         }
     }
 
-    private void printMember(MemberVO member) {
+    private String formatPhone(String phone) {
+        if (phone.equals("0")) {
+            return phone;
+        }
 
+        phone = phone.replace("-", "").trim();
+
+        if (phone.length() == 11) {
+            phone = phone.replaceFirst(
+                    "(\\d{3})(\\d{4})(\\d{4})",
+                    "$1-$2-$3"
+            );
+        }
+
+        return phone;
+    }
+
+    private void printMember(MemberVO member) {
         System.out.println();
         System.out.println("========== 회원 정보 조회 결과 ==========");
         System.out.println();

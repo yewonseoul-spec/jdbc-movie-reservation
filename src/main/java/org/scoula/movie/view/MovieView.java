@@ -21,42 +21,38 @@ public class MovieView {
     }
 
     public void showShowingMovies() {
-        while (true) {
-            System.out.println();
-            System.out.println("========== 1. 상영중 영화 조회 ==========");
+        System.out.println();
+        System.out.println("========== 1. 상영중 영화 조회 ==========");
 
-            try {
-                List<MovieVO> movies = movieDAO.getShowingMovies();
+        try {
+            List<MovieVO> movies = movieDAO.getShowingMovies();
 
-                if (movies.isEmpty()) {
-                    System.out.println("오늘 상영중인 영화가 없습니다.");
-                    waitEnterToMain();
-                    return;
-                }
-
-                for (MovieVO movie : movies) {
-                    System.out.println(movie.getMovieId() + ". " + movie.getMovieTitle());
-                }
-
-                System.out.println("0. 이전 메뉴로 돌아가기");
-                System.out.println();
-                System.out.print("상영 시간을 조회할 영화 번호 입력 >> ");
-
-                int movieId = inputNumber();
-
-                if (movieId == 0) {
-                    return;
-                }
-
-                printSchedules(movieId);
-                return;
-
-            } catch (SQLException e) {
-                System.out.println("상영중 영화 조회 중 오류가 발생했습니다.");
-                e.printStackTrace();
+            if (movies.isEmpty()) {
+                System.out.println("오늘 상영중인 영화가 없습니다.");
                 waitEnterToMain();
                 return;
             }
+
+            for (MovieVO movie : movies) {
+                System.out.println(movie.getMovieId() + ". " + movie.getMovieTitle());
+            }
+
+            System.out.println("0. 이전 메뉴로 돌아가기");
+            System.out.println();
+            System.out.print("상영 시간을 조회할 영화 번호 입력 >> ");
+
+            int movieId = inputNumber();
+
+            if (movieId == 0) {
+                return;
+            }
+
+            printSchedules(movieId);
+
+        } catch (SQLException e) {
+            System.out.println("상영중 영화 조회 중 오류가 발생했습니다.");
+            e.printStackTrace();
+            waitEnterToMain();
         }
     }
 
@@ -102,23 +98,11 @@ public class MovieView {
             System.out.println();
             System.out.println("존재하지 않는 회원번호입니다.");
             System.out.println("회원 정보 조회 후 다시 예매해주세요.");
-            System.out.println();
-            System.out.println("0. 이전 메뉴로 돌아가기");
-
-            while (true) {
-                System.out.print("메뉴 선택 >> ");
-                int menu = inputNumber();
-
-                if (menu == 0) {
-                    return;
-                }
-
-                System.out.println("0을 입력해주세요.");
-            }
+            waitZeroToBack();
+            return;
         }
 
         seatReservationView.reserveSeat(memberId, scheduleId);
-        return;
     }
 
     private boolean isValidScheduleId(List<MovieScheduleVO> schedules, int scheduleId) {

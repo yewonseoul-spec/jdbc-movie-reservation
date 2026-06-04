@@ -1,14 +1,11 @@
 package org.scoula.movie.main;
 
-import org.scoula.movie.seat.SeatReservationView;
+import org.scoula.movie.member.MemberView;
 
 public class Main {
-
     public static void main(String[] args) {
+        MemberView view = new MemberView();
 
-        SeatReservationView view =
-                new SeatReservationView();
-
-        view.reserveSeat(1, 1);
+        view.searchMember();
     }
 }

@@ -51,6 +51,16 @@ public class ReservationDAO {
         WHERE r.reservation_id = ?
         """;
 
+
+
+    // 3. 예매 취소 쿼리
+    private final String RESERVATION_CANCEL_BY_ID = """
+        UPDATE reservation
+        SET reservation_status = '예매취소'
+        WHERE reservation_id = ?
+          AND reservation_status = '예매완료'
+        """;
+
     // ResultSet에서 데이터를 뽑아 VO 바구니로 매핑해주는 공통 메서드
     private ReservationVO map(ResultSet rs) throws SQLException {
         ReservationVO vo = new ReservationVO();
@@ -95,4 +105,17 @@ public class ReservationDAO {
         }
         return Optional.empty();
     }
+
+
+    /**
+     * 3. 예매번호로 예매 취소
+     * 이미 취소된 예매는 UPDATE 대상이 아니므로 0을 반환한다.
+     */
+    public int cancelReservation(int reservationId) throws SQLException {
+        try (PreparedStatement pstmt = conn.prepareStatement(RESERVATION_CANCEL_BY_ID)) {
+            pstmt.setInt(1, reservationId);
+            return pstmt.executeUpdate();
+        }
+    }
+
 }

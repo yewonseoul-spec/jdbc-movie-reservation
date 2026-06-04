@@ -1,19 +1,94 @@
-package org.scoula.movie.domain; // 팀 패키지 경로에 맞게 맞춰줘!
+package org.scoula.movie.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ReservationVO {
-    private int reservationId;     // 예매 번호
-    private String movieTitle;     // 영화 제목
-    private String startTime;      // 상영 시작 시간
-    private String endTime;        // 상영 종료 시간
-    private String seatNumber;     // 좌석 번호
-    private int paymentAmount;     // 결제 금액
+    private int reservationId;
+    private String movieTitle;
+    private String startTime;
+    private String endTime;
+    private String seatNumber;
+    private int paymentAmount;
+    private String reservationStatus;
 
-    private String reservationStatus; // 예매 상태 (예매완료/취소)
+    public ReservationVO() {
+    }
+
+    public ReservationVO(int reservationId, String movieTitle, String startTime, String endTime,
+                         String seatNumber, int paymentAmount, String reservationStatus) {
+        this.reservationId = reservationId;
+        this.movieTitle = movieTitle;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.seatNumber = seatNumber;
+        this.paymentAmount = paymentAmount;
+        this.reservationStatus = reservationStatus;
+    }
+
+    public int getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public int getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(int paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public String getReservationStatus() {
+        return reservationStatus;
+    }
+
+    public void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationVO{" +
+                "reservationId=" + reservationId +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", seatNumber='" + seatNumber + '\'' +
+                ", paymentAmount=" + paymentAmount +
+                ", reservationStatus='" + reservationStatus + '\'' +
+                '}';
+    }
 }

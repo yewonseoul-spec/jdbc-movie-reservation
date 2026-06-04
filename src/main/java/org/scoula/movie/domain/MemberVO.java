@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberVO {
 
-    private int memberId;
-    private String memberName;
+    private int member_id;
+    private String member_name;
     private String phone;
+
 }

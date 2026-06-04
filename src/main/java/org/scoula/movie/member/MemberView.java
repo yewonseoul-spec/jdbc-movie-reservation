@@ -22,6 +22,7 @@ public class MemberView {
 
         System.out.println();
         System.out.println("====== 3. 회원 정보 조회 ======");
+        System.out.println("전화번호를 입력하세요. ");
         System.out.println();
         System.out.println("0. 이전 메뉴로 돌아가기");
         System.out.println();

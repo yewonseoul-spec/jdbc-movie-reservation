@@ -49,6 +49,7 @@ public class MovieView {
                 }
 
                 printSchedules(movieId);
+                return;
 
             } catch (SQLException e) {
                 System.out.println("상영중 영화 조회 중 오류가 발생했습니다.");

@@ -1,17 +1,71 @@
 package org.scoula.movie.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SeatReservationVO {
-    private int reservationId;  // 예매 번호
-    private int memberId;       // 회원 번호
-    private int scheduleId;     // 상영 번호
-    private String seatNumber;  // 좌석 번호
-    private String reservationStatus; // 예매 상태
-    private int paymentAmount;  // 결제 금액
+    private int reservationId;
+    private int memberId;
+    private int scheduleId;
+    private String seatNumber;
+    private String reservationStatus;
+    private int paymentAmount;
+
+    public SeatReservationVO() {
+    }
+
+    public SeatReservationVO(int reservationId, int memberId, int scheduleId,
+                             String seatNumber, String reservationStatus, int paymentAmount) {
+        this.reservationId = reservationId;
+        this.memberId = memberId;
+        this.scheduleId = scheduleId;
+        this.seatNumber = seatNumber;
+        this.reservationStatus = reservationStatus;
+        this.paymentAmount = paymentAmount;
+    }
+
+    public int getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public String getReservationStatus() {
+        return reservationStatus;
+    }
+
+    public void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
+
+    public int getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(int paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
 }

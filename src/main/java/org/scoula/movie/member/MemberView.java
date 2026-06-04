@@ -60,10 +60,10 @@ public class MemberView {
         System.out.println("[회원 정보]");
         System.out.println();
 
-        System.out.println("회원 번호 : " + member.getMemberId());
+        System.out.println("회원 번호 : " + member.getMember_id());
         System.out.println();
 
-        System.out.println("이름 : " + member.getMemberName());
+        System.out.println("이름 : " + member.getMember_name());
         System.out.println();
 
         System.out.println("전화번호 : " + member.getPhone());

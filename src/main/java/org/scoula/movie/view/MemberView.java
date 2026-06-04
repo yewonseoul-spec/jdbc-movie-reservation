@@ -1,4 +1,4 @@
-package org.scoula.movie.view;
+package org.scoula.movie.member;
 
 import org.scoula.movie.dao.MemberDAO;
 import org.scoula.movie.domain.MemberVO;
@@ -21,25 +21,16 @@ public class MemberView {
     public void searchMember() {
 
         System.out.println();
-        System.out.println("========== 3. 회원 정보 조회 ==========");
+        System.out.println("====== 3. 회원 정보 조회 ======");
         System.out.println();
         System.out.println("0. 이전 메뉴로 돌아가기");
         System.out.println();
 
         while (true) {
 
-            System.out.print("전화번호 입력 >> ");
+            System.out.print("전화번호 입력 : ");
 
             String phone = sc.nextLine();
-
-            phone = phone.replace("-", "");
-
-            if(phone.length() == 11) {
-                phone = phone.replaceFirst(
-                        "(\\d{3})(\\d{4})(\\d{4})",
-                        "$1-$2-$3"
-                );
-            }
 
             if (phone.equals("0")) {
                 return;
@@ -63,7 +54,7 @@ public class MemberView {
     private void printMember(MemberVO member) {
 
         System.out.println();
-        System.out.println("========== 회원 정보 조회 결과 ==========");
+        System.out.println("===== 회원 정보 조회 결과 =====");
         System.out.println();
 
         System.out.println("[회원 정보]");

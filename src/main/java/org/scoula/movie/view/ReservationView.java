@@ -1,4 +1,4 @@
-package org.scoula.movie.reservation;
+package org.scoula.movie.view;
 
 import org.scoula.movie.dao.ReservationDAO;
 import org.scoula.movie.domain.ReservationVO;
@@ -23,7 +23,7 @@ public class ReservationView {
         System.out.println();
         System.out.print("전화번호 입력 >> ");
 
-        String phone = sc.nextLine();
+        String phone = formatPhone(sc.nextLine());
 
         if (phone.equals("0")) {
             return;
@@ -50,26 +50,45 @@ public class ReservationView {
                 return;
             }
 
-            boolean myReservation = false;
-            for (ReservationVO reservation : reservations) {
-                if (reservation.getReservationId() == reservationId) {
-                    myReservation = true;
-                    break;
-                }
-            }
-
-            if (!myReservation) {
+            if (!containsReservationId(reservations, reservationId)) {
                 System.out.println("방금 조회한 예매 목록에 없는 예매번호입니다.");
                 waitEnter();
                 return;
             }
 
             cancelReservation(reservationId);
+
         } catch (SQLException e) {
             System.out.println("예매 조회/취소 중 오류가 발생했습니다.");
             e.printStackTrace();
             waitEnter();
         }
+    }
+
+    private String formatPhone(String phone) {
+        if (phone.equals("0")) {
+            return phone;
+        }
+
+        phone = phone.replace("-", "").trim();
+
+        if (phone.length() == 11) {
+            phone = phone.replaceFirst(
+                    "(\\d{3})(\\d{4})(\\d{4})",
+                    "$1-$2-$3"
+            );
+        }
+
+        return phone;
+    }
+
+    private boolean containsReservationId(List<ReservationVO> reservations, int reservationId) {
+        for (ReservationVO reservation : reservations) {
+            if (reservation.getReservationId() == reservationId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void cancelReservation(int reservationId) throws SQLException {

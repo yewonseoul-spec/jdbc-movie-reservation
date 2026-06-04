@@ -1,8 +1,4 @@
-package org.scoula.movie.main;
-
-import org.scoula.movie.member.MemberView;
-import org.scoula.movie.movie.MovieView;
-import org.scoula.movie.reservation.ReservationView;
+package org.scoula.movie.view;
 
 import java.util.Scanner;
 
@@ -32,7 +28,7 @@ public class MainMenuView {
 
     private void printMainMenu() {
         System.out.println();
-        System.out.println("========== 영화 예매 시스템 ==========");
+        System.out.println("=========== 영화 예매 시스템 ===========");
         System.out.println("1. 상영중 영화 조회");
         System.out.println("2. 예매 조회 / 취소");
         System.out.println("3. 회원 정보 조회");

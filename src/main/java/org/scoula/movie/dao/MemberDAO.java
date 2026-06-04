@@ -8,42 +8,57 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class MemberDAO {
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
 
     public MemberVO findByPhone(String phone) {
-
         String sql = "SELECT member_id, member_name, phone FROM member WHERE phone = ?";
-        //System.out.println("=========== " + conn);
         MemberVO memberVO = null;
+
         try {
-            conn = JDBCUtil.getConnection();
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
 
-            //System.out.println("=========== " + conn);
-
-            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, phone);
-
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                memberVO = new MemberVO(rs.getInt("member_id"),
+                memberVO = new MemberVO(
+                        rs.getInt("member_id"),
                         rs.getString("member_name"),
-                        rs.getString("phone"));
+                        rs.getString("phone")
+                );
             }
+
+            rs.close();
+            pstmt.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                //JDBCUtil.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return memberVO;
+    }
+
+    public boolean existsById(int memberId) {
+        String sql = "SELECT COUNT(*) FROM member WHERE member_id = ?";
+
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, memberId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+            rs.close();
+            pstmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
